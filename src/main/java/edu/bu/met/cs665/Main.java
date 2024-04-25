@@ -14,6 +14,7 @@ import edu.bu.met.cs665.implementations.ChatClient;
 import edu.bu.met.cs665.implementations.ChatManager;
 import edu.bu.met.cs665.implementations.ChatRoom;
 import edu.bu.met.cs665.implementations.Message;
+import edu.bu.met.cs665.types.MessageType;
 
 /**
  * The Main class initializes and runs the chat application.
@@ -38,6 +39,6 @@ public class Main {
     generalRoom.join(client2);  // Add client2 to the chat room
 
     // Send a message from client1 to all participants in the "General" chat room
-    generalRoom.sendMessage(new Message("client1", "Hello everyone!"));
+    generalRoom.sendMessage(new Message("client1", "Hello everyone!", MessageType.BROADCAST));
   }
 }

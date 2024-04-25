@@ -3,55 +3,59 @@
  * Course: CS-665 Software Designs & Patterns
  * Date: 04/15/2024
  * File Name: DefaultMessageHandler.java
- * Description: Handles messages by delegating to a callback mechanism.
+ * Description: Processes messages by implementing content moderation and then 
+ *              delegates broadcasting to a ChatRoom, exemplifying the Delegation 
+ *              and Strategy patterns.
  */
 
 package edu.bu.met.cs665.implementations;
 
-import edu.bu.met.cs665.interfaces.MessageCallback;
 import edu.bu.met.cs665.interfaces.MessageHandler;
 
 /**
- * DefaultMessageHandler delegates the message handling to a callback.
- * It uses the strategy pattern for flexibility in message processing.
+ * This handler pre-processes messages including content checks before broadcasting
+ * via the ChatRoom, implementing both Delegation and Strategy patterns.
  */
 public class DefaultMessageHandler implements MessageHandler {
-  private MessageCallback callback;  // Callback to handle the message
+  private ChatRoom chatRoom;  // Reference to ChatRoom for message broadcasting
 
   /**
-   * Constructor initializes the handler with a specific callback.
+   * Constructs a message handler with a reference to the ChatRoom for broadcasting.
    *
-   * @param callback the callback to handle messages
+   * @param chatRoom the chat room that will broadcast messages
    */
-  public DefaultMessageHandler(MessageCallback callback) {
-    this.callback = callback;
+  public DefaultMessageHandler(ChatRoom chatRoom) {
+    this.chatRoom = chatRoom;
   }
 
   /**
-   * Handles messages by delegating the responsibility to the callback.
+   * Handles message processing including content moderation before broadcasting.
    *
-   * @param message the message to be handled
+   * @param message the message to be processed and broadcasted
    */
   @Override
   public void handleMessage(Message message) {
-    callback.onMessageReceived(message);
+    System.out.println("Handling message: " + message.getContent());
+    if (isContentAcceptable(message.getContent())) {
+      chatRoom.broadcastMessage(message);
+    } else {
+      System.out.println("Content blocked due to inappropriate language.");
+    }
   }
 
   /**
-   * Gets the current message handling callback.
+   * Checks if the message content is acceptable, filtering out prohibited words.
    *
-   * @return the current callback
+   * @param content the content of the message to check
+   * @return true if content is acceptable, false otherwise
    */
-  public MessageCallback getCallback() {
-    return callback;
-  }
-
-  /**
-   * Sets a new callback for handling messages.
-   *
-   * @param callback the new callback to set
-   */
-  public void setCallback(MessageCallback callback) {
-    this.callback = callback;
+  private boolean isContentAcceptable(String content) {
+    String[] prohibitedWords = {"badword1", "badword2", "badword3"};
+    for (String word : prohibitedWords) {
+      if (content.toLowerCase().contains(word)) {
+        return false;
+      }
+    }
+    return true;
   }
 }

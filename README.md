@@ -2,15 +2,18 @@
 | CS-665       | Software Design & Patterns |
 |--------------|----------------------------|
 | Name         | Ratan Jagath Naik          |
-| Date         | 11/05/1997                 |
+| Date         | 04/23/2024                 |
 | Course       | Spring 2024                |
 | Final Project (Chat Room Manager)         |
 
 # Assignment Overview
-Please add a paragraph or two overviewing the objectives of the assignment.
+
+The chat application project integrates a suite of design patterns to construct a sophisticated messaging system. The Singleton pattern centralizes control in the ChatManager class, guaranteeing a single global instance that manages chat rooms. The Observer pattern is pivotal for real-time interaction, allowing chat room participants to receive instant message updates. For additional functionality not addressed in class, the Callback pattern is employed to invoke specific functions when messages arrive, and the Delegation pattern delegates tasks like message formatting or command execution to auxiliary objects, thereby enhancing modularity and separation of concerns.
+
+In practical use, the application facilitates the creation of chat rooms, user registration, and live messaging between clients. It exemplifies a robust software design, effectively addressing the needs of a real-time communication platform. Users can seamlessly join chat rooms, send messages, and get notified of new messages through a user-friendly interface. The combination of these design patterns not only fulfills the technical requirements but also demonstrates a strategic approach to software architecture, resulting in a flexible and maintainable system.
 
 # GitHub Repository Link:
-https://github.com/RatanJN/665_Assignment2.git
+https://github.com/RatanJN/FinalProject_665.git
 
 # Implementation Description 
 
@@ -19,12 +22,22 @@ For each assignment, please answer the following:
 
 - Explain the level of flexibility in your implementation, including how new object types can
 be easily added or removed in the future.
+
+The chat application is designed with flexibility in mind, leveraging the Delegation and Strategy patterns which allow for easy expansion or modification. New object types, such as different message formats or handling strategies, can be introduced without altering the core application logic. This is achieved by abstracting functionalities into interfaces and using concrete implementations that can be interchanged as needed. For example, adding a new message type is as simple as creating a new class that implements the MessageHandler interface. This design enables future enhancements and integrations with minimal changes to the existing codebase.
+
 - Discuss the simplicity and understandability of your implementation, ensuring that it is
 easy for others to read and maintain.
+
+The implementation is kept straightforward and intuitive by adhering to the Single Responsibility Principle, ensuring that each class has a clear purpose. Clear naming conventions and a consistent coding style contribute to the code's readability. The use of well-known design patterns provides a familiar structure that other developers can quickly grasp. Each class and method is accompanied by concise comments that explain their functionality, which facilitates ease of maintenance and encourages best practices for software development.
+
 - Describe how you have avoided duplicated code and why it is important.
+
+Duplicated code is minimized through the use of abstract classes and interfaces which promote code reuse. For instance, common behaviors are encapsulated within base classes or through shared interfaces, allowing different parts of the application to utilize the same underlying logic without redundancy. Avoiding duplicate code is crucial as it reduces the potential for bugs and decreases the maintenance overhead. When a change is necessary, it can be made in a single location, ensuring consistency and reliability across the application.
+
 - If applicable, mention any design patterns you have used and explain why they were
 chosen.
 
+Several design patterns were strategically chosen for this project. The Singleton pattern ensures a single instance of the ChatManager, centralizing the management of chat rooms. The Observer pattern facilitates the notification process to users when messages are broadcasted, promoting loose coupling between the subject and observers. The Callback pattern provides a flexible way to handle incoming messages, allowing for different responses. Lastly, the Delegation pattern is used to offload responsibilities to specialized handlers, making the system more adaptable to change. These patterns were selected based on their ability to provide a clean, modular structure while addressing specific challenges in the chat application's design.
 
 # Maven Commands
 

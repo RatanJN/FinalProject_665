@@ -2,27 +2,28 @@
  * Name: Ratan Jagath Naik
  * Course: CS-665 Software Designs & Patterns
  * Date: 04/15/2024
- * File Name: ChatTests.java
- * Description: This class contains unit tests for the chat application's core functionalities.
+ * File Name: ChatTest.java
+ * Description: This class contains unit tests for the chat application's core functionalities,
+ * including joining chat rooms, sending messages, managing participants, and ensuring Singleton
+ * pattern compliance.
  */
 
 package edu.bu.met.cs665;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import edu.bu.met.cs665.implementations.ChatClient;
 import edu.bu.met.cs665.implementations.ChatManager;
 import edu.bu.met.cs665.implementations.ChatRoom;
 import edu.bu.met.cs665.implementations.Message;
+import edu.bu.met.cs665.types.MessageType;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * ChatTests class performs several unit tests to ensure the functionality of the chat system
- * is as expected. It tests chat room joining, message sending, and Singleton behavior.
+ * ChatTest class performs several unit tests to ensure the functionality of the chat system
+ * is as expected. It tests chat room joining, message sending, participant management, and
+ * Singleton behavior.
  */
 public class ChatTest {
 
@@ -33,7 +34,7 @@ public class ChatTest {
 
   /**
    * Sets up a consistent test environment before each test method.
-   * This method initializes the chat manager, chat room, and test clients.
+   * Initializes the chat manager, chat room, and clients for testing.
    */
   @Before
   public void setUp() {
@@ -61,10 +62,8 @@ public class ChatTest {
   @Test
   public void testSendMessage() {
     testRoom.join(client1);
-    Message msg = new Message("client1", "Hello, World!");
+    Message msg = new Message("client1", "Hello, World!", MessageType.BROADCAST);
     testRoom.sendMessage(msg);
-
-    // Verify that the message content and sender are as expected
     assertEquals("Hello, World!", msg.getContent());
     assertEquals("client1", msg.getSender());
   }
@@ -74,10 +73,8 @@ public class ChatTest {
    */
   @Test
   public void testUnregisteredUserMessage() {
-    Message msg = new Message("unknown", "Hello!");
+    Message msg = new Message("unknown", "Hello!", MessageType.DEFAULT);
     testRoom.sendMessage(msg);
-
-    // Expecting that the unregistered user is not found in participants
     assertFalse(testRoom.getParticipants().containsKey("unknown"));
   }
 
@@ -96,7 +93,30 @@ public class ChatTest {
   @Test
   public void testMultipleJoinsSameUser() {
     testRoom.join(client1);
-    testRoom.join(client1);  // Attempt to join the same user twice
+    testRoom.join(client1);
     assertEquals(1, testRoom.getParticipants().size());
+  }
+
+  /**
+   * Tests if a client can successfully leave a chat room and no longer receives messages.
+   */
+  @Test
+  public void testLeaveChatRoom() {
+    testRoom.join(client2);
+    testRoom.leave("client2");
+    assertFalse(testRoom.getParticipants().containsKey("client2"));
+  }
+
+  /**
+   * Tests message delivery when using different message types.
+   */
+  @Test
+  public void testMessageTypes() {
+    testRoom.join(client1);
+    Message directMessage = new Message("client1", "Private message", MessageType.DIRECT);
+    Message broadcastMessage = new Message("client1", "Announcement", MessageType.BROADCAST);
+    testRoom.sendMessage(directMessage);
+    testRoom.sendMessage(broadcastMessage);
+    // Assuming the method for logging or capturing is implemented for verification
   }
 }

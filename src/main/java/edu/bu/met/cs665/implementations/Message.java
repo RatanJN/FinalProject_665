@@ -8,6 +8,8 @@
 
 package edu.bu.met.cs665.implementations;
 
+import edu.bu.met.cs665.types.MessageType;
+
 /**
  * The Message class encapsulates the details of a message, including its sender
  * and content. This class provides methods to access and modify these details.
@@ -15,6 +17,7 @@ package edu.bu.met.cs665.implementations;
 public class Message {
   private String sender;   // Username of the person who sends the message
   private String content;  // Text content of the message
+  private MessageType type; // Using MessageType enum
 
   /**
    * Constructs a new Message instance.
@@ -22,9 +25,10 @@ public class Message {
    * @param sender The username of the message sender
    * @param content The text content of the message
    */
-  public Message(String sender, String content) {
+  public Message(String sender, String content, MessageType type) {
     this.sender = sender;
     this.content = content;
+    this.type = type;
   }
 
   /**
@@ -61,5 +65,23 @@ public class Message {
    */
   public void setContent(String content) {
     this.content = content;
+  }
+  
+  /**
+   * Retrieves the type of the message.
+   *
+   * @return The type of the message as defined by the MessageType enum
+   */
+  public MessageType getType() {
+    return type;
+  }
+
+  /**
+   * Sets a new type for this message.
+   *
+   * @param type The new MessageType enum value to set for the message
+   */
+  public void setType(MessageType type) {
+    this.type = type;
   }
 }
